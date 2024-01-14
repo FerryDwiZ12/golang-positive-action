@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{.Title}}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  </head>
+  <body class="bg-gray-100 h-screen flex flex-col justify-center items-center shadow-xl">
+    <div class="bg-white p-8 rounded shadow-md w-full sm:w-96">
+      <h1 class="text-2xl font-bold mb-4">{{.Title}}</h1>
+
+      <form action="/" method="post" class="mb-4">
+        <label for="action" class="block mb-2">Action:</label>
+        <input type="text" id="action" name="action" required class="w-full p-2 border border-gray-300 rounded" />
+
+        <button type="submit" class="mt-2 bg-blue-500 text-white p-2 rounded">Create</button>
+      </form>
+
+      <h2 class="text-xl font-bold mb-2">Actions:</h2>
+
+      <ul>
+        {{range .Todos}}
+        <li class="mb-2">{{.Action}} ({{.TotalPoint}} points)</li>
+        {{end}}
+      </ul>
+
+      <h2 class="text-xl font-bold mt-4">Total Points:</h2>
+      <p id="totalPoints" class="mb-8">Calculating...</p>
+    </div>
+
+    <script>
+      // JavaScript code to calculate and display total points
+      document.addEventListener("DOMContentLoaded", function () {
+        var totalPointsElement = document.getElementById("totalPoints");
+
+        // Calculate total points
+        var totalPoints = 0;
+        var todoItems = document.querySelectorAll("li");
+        todoItems.forEach(function (item) {
+          var pointsText = item.textContent.match(/\((\d+) points\)/);
+          if (pointsText) {
+            totalPoints += parseInt(pointsText[1], 10);
+          }
+        });
+
+        // Display total points
+        totalPointsElement.textContent = "Total Points: " + totalPoints;
+      });
+    </script>
+  </body>
+</html>
